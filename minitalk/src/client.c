@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 09:24:25 by ocartier          #+#    #+#             */
-/*   Updated: 2022/01/26 09:25:36 by ocartier         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:35:51 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	sig_usr(int sig)
 		g_bit_control = 1;
 	else if (sig == SIGUSR2)
 	{
-		ft_printf("Message received !\n");
+		ft_printf("Message received !\n %d", sig);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -79,6 +79,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	send_str(argv[2], pid);
-	while (1)
-		sleep(1);
+	// while (1)
+	// 	sleep(1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:28:53 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/03 21:40:26 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:52:54 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	binary(char *text)
 
 int	main(int argc, char *argv[])
 {
+	printf("%d\n", getpid());
 	binary(argv[1]);
 	return (0);
 }
