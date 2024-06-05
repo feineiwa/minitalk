@@ -6,27 +6,40 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/04 22:14:00 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/05 23:00:47 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	ft_atob(int sig)
+void	ft_btoa(int sig)
 {
 	static int	bit;
-	static int	i;
+	static char	c;
+	int			i;
 
-	printf("%d", sig);
+	// printf("mandeha");
+	// exit(EXIT_SUCCESS);
+	c = 0;
+	bit = 8;
+	i = 0;
+	// printf("%d", sig);
 	if (sig == SIGUSR1)
-		i |= (1 << bit);
-	bit++;
-	if (bit == 8)
 	{
-		printf("%c", i);
-		bit = 0;
-		i = 0;
+		c |= (1 << (bit - 1 - i));
 	}
+	else if (sig == SIGUSR2)
+	{
+		c &= ~(1 << (bit - 1 - i));
+	}
+	i++;
+	if (i == 8 && c)
+	{
+		printf("%c\n", c);
+		i = 0;
+		c = 0;
+	}
+	// exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -41,11 +54,10 @@ int	main(int argc, char *argv[])
 	}
 	pid = getpid();
 	printf("%d\n", pid);
+	signal(SIGUSR1, &ft_btoa);
+	signal(SIGUSR2, &ft_btoa);
 	while (argc == 1)
 	{
-		signal(SIGUSR1, ft_atob);
-		signal(SIGUSR2, ft_atob);
-		pause();
+		sleep(1);
 	}
-	return (0);
 }

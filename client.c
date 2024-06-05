@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:02:57 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/04 20:32:27 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/05 22:54:52 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_send_char(int pid, char c)
 			kill(pid, SIGUSR2);
 		bit--;
 		// while (g_bit_control != 1);
-		usleep(300);
+		usleep(10);
 	}
 }
 
