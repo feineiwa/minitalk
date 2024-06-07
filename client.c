@@ -6,31 +6,31 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:02:57 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/05 22:54:52 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:40:28 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-// int	g_bit_control; /** global static int variable. it will help us note 
-// *   when we stopped receiving signals
-// */
-
-void	ft_send_char(int pid, char c)
+void	ft_send_char(int pid, unsigned char c)
 {
 	int	bit;
 
 	bit = 7;
 	while (bit >= 0)
 	{
-		// g_bit_control = 0;
 		if (c & (1 << bit))
+		{
 			kill(pid, SIGUSR1);
+			// printf("1");
+		}
 		else
+		{
 			kill(pid, SIGUSR2);
+			// printf("0");
+		}
 		bit--;
-		// while (g_bit_control != 1);
-		usleep(10);
+		usleep(42);
 	}
 }
 
@@ -39,34 +39,15 @@ void	ft_send_message(int pid, char *message)
 	int	i;
 
 	i = 0;
-	while (message[i])
-		ft_send_char(pid, message[i++]);
-	ft_send_char(pid, 0);
-}
-
-// void	sig_handler(int sig)
-// {
-// 	// if (sig == SIGUSR1)
-// 		// g_bit_control = 1;
-// 	if (sig == SIGUSR2)
-// 	{
-// 		printf("Message received\n");
-// 		exit(EXIT_SUCCESS);
-// 	}
-// }
-
-int	main(int argc, char *argv[])
-{
-	int		pid;
-
-	if (argc != 3)
+	while (message[i] != '\0')
 	{
-		printf("Usage: ./client <pid> <message>\n");
-		exit(EXIT_FAILURE);
+		ft_send_char(pid, message[i]);
+		i++;
 	}
-	// signal(SIGUSR1, &sig_handler);
-	// signal(SIGUSR2, &sig_handler);
-	pid = atoi(argv[1]);
+	ft_send_char(pid, '\0');
+}
+void	error_handling(int pid, char **argv)
+{
 	if (!pid)
 	{
 		printf("%s is invalid pid\n", argv[1]);
@@ -82,6 +63,19 @@ int	main(int argc, char *argv[])
 		printf("Empty message, nothing to sent!\n");
 		exit(EXIT_FAILURE);
 	}
+}
+
+int	main(int argc, char *argv[])
+{
+	int pid;
+
+	if (argc != 3)
+	{
+		printf("Usage: ./client <pid> <message>\n");
+		exit(EXIT_FAILURE);
+	}
+	pid = atoi(argv[1]);
+	error_handling(pid, argv);
 	ft_send_message(pid, argv[2]);
 	return (0);
 }

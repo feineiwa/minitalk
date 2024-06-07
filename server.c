@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/05 23:00:47 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:35:08 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,20 @@
 
 void	ft_btoa(int sig)
 {
-	static int	bit;
-	static char	c;
-	int			i;
+	static int				bit = 0;
+	static unsigned char	c = 0;
 
-	// printf("mandeha");
-	// exit(EXIT_SUCCESS);
-	c = 0;
-	bit = 8;
-	i = 0;
-	// printf("%d", sig);
 	if (sig == SIGUSR1)
 	{
-		c |= (1 << (bit - 1 - i));
+		c |= (1 << (7 - bit));
 	}
-	else if (sig == SIGUSR2)
+	bit++;
+	if (bit == 8)
 	{
-		c &= ~(1 << (bit - 1 - i));
-	}
-	i++;
-	if (i == 8 && c)
-	{
-		printf("%c\n", c);
-		i = 0;
+		write(1, &c, 1);
+		bit = 0;
 		c = 0;
 	}
-	// exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -57,7 +45,6 @@ int	main(int argc, char *argv[])
 	signal(SIGUSR1, &ft_btoa);
 	signal(SIGUSR2, &ft_btoa);
 	while (argc == 1)
-	{
-		sleep(1);
-	}
+		pause();
+	return (0);
 }

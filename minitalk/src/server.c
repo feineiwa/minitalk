@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocartier <ocartier@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 09:18:01 by ocartier          #+#    #+#             */
-/*   Updated: 2022/01/25 11:25:53 by ocartier         ###   ########lyon.fr   */
+/*   Updated: 2024/06/06 08:51:19 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ int	main(void)
 	init_sig(SIGUSR2, &sig_usr);
 	ft_printf("pid: %d", getpid());
 	while (1)
-		sleep(1);
+		pause();
 }
