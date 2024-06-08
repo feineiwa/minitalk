@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:02:57 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/07 09:40:28 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:58:36 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_send_message(int pid, char *message)
 	}
 	ft_send_char(pid, '\0');
 }
+
 void	error_handling(int pid, char **argv)
 {
 	if (!pid)
@@ -67,7 +68,7 @@ void	error_handling(int pid, char **argv)
 
 int	main(int argc, char *argv[])
 {
-	int pid;
+	int		pid;
 
 	if (argc != 3)
 	{

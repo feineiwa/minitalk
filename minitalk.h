@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:29:25 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/04 11:04:46 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:12:52 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+
+# define BUFFER_SIZE 4096
 
 #endif

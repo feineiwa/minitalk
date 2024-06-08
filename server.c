@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/07 09:35:08 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/08 22:26:34 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,33 @@ void	ft_btoa(int sig)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
+	static char				message[BUFFER_SIZE];
+	static int				i = 0;
+	int						k ;
 
+	k = 0;
 	if (sig == SIGUSR1)
-	{
 		c |= (1 << (7 - bit));
-	}
 	bit++;
 	if (bit == 8)
 	{
-		write(1, &c, 1);
+		if (c == '\0')
+		{
+			message[i] = c;
+			while (message[k])
+			{
+				write(1, &message[k], 1);
+				k++;
+			}
+			bit = 0;
+			c = 0;
+			i = 0;
+			return ;
+		}
+		message[i] = c;
 		bit = 0;
 		c = 0;
+		i++;
 	}
 }
 
