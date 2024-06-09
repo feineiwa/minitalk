@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:29:25 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/08 22:12:52 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:38:00 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdlib.h>
 # include <string.h>
 
-# define BUFFER_SIZE 4096
+typedef struct s_string
+{
+	char				c;
+	struct	s_string	*next;
+}	t_string;
 
 #endif
