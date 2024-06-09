@@ -6,24 +6,21 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:02:57 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/09 17:42:19 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/09 23:31:38 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <signal.h>
 
-int	g_ack_received;
+// int	g_ack_received;
 
 void	ack_handler(int sig)
 {
-	// if (sig == SIGUSR1)
-	(void)sig;
-	g_ack_received = 1;
-	// else if (sig == SIGUSR2)
-	// {
-	// 	printf("Message received !\n %d", sig);
-	// 	exit(EXIT_SUCCESS);
-	// }
+	if (sig == SIGUSR1)
+		printf("Message has been received by server!\n");
+	// (void)sig;
+	// g_ack_received = 1;
 }
 
 void	ft_send_char(int pid, unsigned char c)
@@ -33,7 +30,7 @@ void	ft_send_char(int pid, unsigned char c)
 	bit = 7;
 	while (bit >= 0)
 	{
-		g_ack_received = 0;
+		// g_ack_received = 0;
 		if (c & (1 << bit))
 		{
 			kill(pid, SIGUSR1);
@@ -43,8 +40,8 @@ void	ft_send_char(int pid, unsigned char c)
 			kill(pid, SIGUSR2);
 		}
 		bit--;
-		while (!g_ack_received)
-			usleep(100);
+		// while (!g_ack_received)
+		usleep(50);
 	}
 }
 
@@ -52,6 +49,7 @@ void	ft_send_message(int pid, char *message)
 {
 	while (*message)
 		ft_send_char(pid, *message++);
+	signal(SIGUSR1, ack_handler);
 	ft_send_char(pid, '\0');
 }
 
@@ -85,7 +83,6 @@ int	main(int argc, char *argv[])
 	}
 	pid = atoi(argv[1]);
 	error_handling(pid, argv);
-	signal(SIGUSR1, &ack_handler);
 	ft_send_message(pid, argv[2]);
 	return (0);
 }

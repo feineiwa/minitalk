@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/09 17:36:53 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/09 23:37:03 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,38 +47,44 @@ void	print_and_clear()
 	}
 	g_message = NULL;
 }
-void	send_acknowledge(int client_pid)
-{
-	if (kill(client_pid, SIGUSR1) == -1)
-		exit(EXIT_FAILURE);
-	
-}
 
-void	ft_btoa(int sig)
+// void	send_acknowledge(int client_pid)
+// {
+// 	if (kill(client_pid, SIGUSR1) == -1)
+// 		exit(EXIT_FAILURE);
+	
+// }
+
+void	ft_btoa(int sig, siginfo_t *info, void *context)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0;
-	static int				client_pid = 0;
+	// static int				client_pid = 0;
 
-	if (client_pid == 0)
-		client_pid = getpid();
+	// if (client_pid == 0)
+	// 	client_pid = getpid();
+	(void)context;
 	if (sig == SIGUSR1)
 		c |= (1 << (7 - bit));
 	bit++;
 	if (bit == 8)
 	{
 		if (c == '\0')
+		{
+			kill(info->si_pid, SIGUSR1);
 			print_and_clear();
+		}
 		else
 			append_char_to_list(c);
 		bit = 0;
 		c = 0;
 	}
-	send_acknowledge(client_pid);
+	// send_acknowledge(client_pid);
 }
 
 int	main(int argc, char *argv[])
 {
+	struct sigaction sa;
 	(void)argv;
 	if (argc != 1)
 	{
@@ -86,9 +92,14 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	printf("server PID: %d\n", getpid());
-	signal(SIGUSR1, &ft_btoa);
-	signal(SIGUSR2, &ft_btoa);
+	sa.sa_sigaction = ft_btoa;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
 	while (argc == 1)
+	{
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
 		pause();
+	}
 	return (0);
 }
