@@ -6,47 +6,65 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/09 23:37:03 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:46:04 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <signal.h>
 
-t_string *g_message = NULL;
+// t_string *g_message = NULL;
+t_string	*ptr;
 
 void	append_char_to_list(char c)
 {
-	t_string	*new_node = malloc(sizeof(t_string));
-	t_string	*temp;
+	// t_string	*new_node = malloc(sizeof(t_string));
+	// t_string	*temp;
 
-	if (!new_node)
-		exit(EXIT_FAILURE);
-	new_node->c = c;
-	new_node->next = NULL;
-	if (!g_message)
-		g_message = new_node;
-	else
+	// if (!new_node)
+	// 	exit(EXIT_FAILURE);
+	// new_node->c = c;
+	// new_node->next = NULL;
+	// if (!g_message)
+	// 	g_message = new_node;
+	// else
+	// {
+	// 	temp = g_message;
+	// 	while (temp->next)
+	// 		temp = temp->next;
+	// 	temp->next = new_node;
+	// }
+	static char	*message = NULL;
+	static int	i;
+	
+	if (!message)
 	{
-		temp = g_message;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_node;
+		i = 0;
+		message = malloc(sizeof(char) * ptr->len);
 	}
-}
-void	print_and_clear()
-{
-	t_string	*temp = g_message;
-	t_string	*to_free;
-	while (temp)
+	message[i] = c;
+	i++;
+	if (c == '\0')
 	{
-		write(1, &(temp->c), 1);
-		to_free = temp;
-		temp = temp->next;
-		free(to_free);
+		message[ptr->len] = '\0';
+		printf("%s", message);
 	}
-	g_message = NULL;
+	
 }
+// void	print_and_clear()
+// {
+// 	// t_string	*temp = g_message;
+// 	// t_string	*to_free;
+// 	// while (temp)
+// 	// {
+// 	// 	write(1, &(temp->c), 1);
+// 	// 	to_free = temp;
+// 	// 	temp = temp->next;
+// 	// 	free(to_free);
+// 	// }
+// 	// g_message = NULL;
+// 	printf("%s", message);
+// }
 
 // void	send_acknowledge(int client_pid)
 // {
@@ -69,12 +87,12 @@ void	ft_btoa(int sig, siginfo_t *info, void *context)
 	bit++;
 	if (bit == 8)
 	{
-		if (c == '\0')
-		{
-			kill(info->si_pid, SIGUSR1);
-			print_and_clear();
-		}
-		else
+		// if (c == '\0')
+		// {
+			// kill(info->si_pid, SIGUSR1);
+			// print_and_clear();
+		// }
+		// else
 			append_char_to_list(c);
 		bit = 0;
 		c = 0;
@@ -84,7 +102,7 @@ void	ft_btoa(int sig, siginfo_t *info, void *context)
 
 int	main(int argc, char *argv[])
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 	(void)argv;
 	if (argc != 1)
 	{
