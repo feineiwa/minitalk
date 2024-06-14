@@ -6,21 +6,21 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 22:02:57 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/11 09:43:07 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/14 22:34:06 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-// int	g_ack_received;
+volatile sig_atomic_t	g_ack_received = 0;
 
-// void	ack_handler(int sig)
-// {
+void	ack_handler(int sig)
+{
 // 	if (sig == SIGUSR1)
 // 		printf("Message has been received by server!\n");
-// 	// (void)sig;
-// 	// g_ack_received = 1;
-// }
+	(void)sig;
+	g_ack_received = 1;
+}
 
 void	ft_send_char(pid_t pid, unsigned char c)
 {
@@ -29,7 +29,7 @@ void	ft_send_char(pid_t pid, unsigned char c)
 	bit = 7;
 	while (bit >= 0)
 	{
-		// g_ack_received = 0;
+		g_ack_received = 0;
 		if (c & (1 << bit))
 		{
 			kill(pid, SIGUSR1);
@@ -38,9 +38,9 @@ void	ft_send_char(pid_t pid, unsigned char c)
 		{
 			kill(pid, SIGUSR2);
 		}
+		while (!g_ack_received)
+			usleep(100);
 		bit--;
-		// while (!g_ack_received)
-		usleep(300);
 	}
 }
 
@@ -73,17 +73,21 @@ void	error_handling(int pid, char **argv)
 
 int	main(int argc, char *argv[])
 {
-	pid_t		pid;
-	t_string	*ptr;
-	
+	pid_t				pid;
+	struct sigaction	sa;
+
 	if (argc != 3)
 	{
 		printf("Usage: %s <pid> <message>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-	pid = atoi(argv[1]);
+	pid = (pid_t)atoi(argv[1]);
 	error_handling(pid, argv);
-	ptr->len = strlen(argv[2]);
+	sa.sa_handler = ack_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	ft_send_message(pid, argv[2]);
 	return (0);
 }
