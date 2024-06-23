@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 15:29:25 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/14 22:04:06 by frahenin         ###   ########.fr       */
+/*   Created: 2024/03/15 11:40:58 by frahenin          #+#    #+#             */
+/*   Updated: 2024/03/15 14:59:01 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "ft_printf.h"
 
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <signal.h>
-
-typedef struct s_string
+int	ft_print_str(char *str)
 {
-	char				c;
-	struct s_string		*next;
-}	t_string;
+	int	count;
 
-#endif
+	count = 0;
+	while (str[count] != '\0')
+		count += ft_putchar(str[count]);
+	return (count);
+}

@@ -6,12 +6,11 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:28:43 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/14 22:31:17 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:28:43 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <signal.h>
 
 t_string	*g_message = NULL;
 
@@ -70,7 +69,15 @@ void	ft_btoa(int sig, siginfo_t *info, void *context)
 		bit = 7;
 		c = 0;
 	}
-	kill(info->si_pid, SIGUSR1);
+	if (info->si_pid != 0)
+		kill(info->si_pid, SIGUSR1);
+}
+
+void handle_shutdown(int sig) {
+    (void)sig;
+    free_message_list();
+    ft_printf("Server shutting down...\n");
+    exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -80,15 +87,17 @@ int	main(int argc, char *argv[])
 	(void)argv;
 	if (argc != 1)
 	{
-		printf("Error\n");
+		ft_printf("Error\n");
 		exit(EXIT_FAILURE);
 	}
-	printf("server PID: <%d>\n", getpid());
+	ft_printf("server PID: <%d>\n", getpid());
 	sa.sa_sigaction = ft_btoa;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
+
+	signal(SIGUSR2, handle_shutdown);
 	while (argc == 1)
 	{
 		pause();

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 15:42:25 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/04 15:57:33 by frahenin         ###   ########.fr       */
+/*   Created: 2024/03/02 08:39:02 by frahenin          #+#    #+#             */
+/*   Updated: 2024/03/08 23:04:11 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft.h"
 
-void	signal_handler(int seg)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	printf ("\nThank you");
-	exit (EXIT_SUCCESS);
-}
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-int	main()
-{
-	signal(SIGINT, &signal_handler);
-	while (1)
-	{
-		printf("ok\n");
-	}
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	if (n == 0)
+		return (0);
+	i = 0;
+	while (str1[i] == str2[i] && (i < n - 1) && str1[i])
+		i++;
+	return (str1[i] - str2[i]);
 }
