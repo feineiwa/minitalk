@@ -1,39 +1,85 @@
-NAME = minitalk
+NAMEC = client
 
-CC = gcc
+NAMES = server
 
-CFLAGS = -Wall -Wextra -Werror
+BONUS_NAMEC = client_bonus
 
-CLIENT_FILE = mandatory/client.c
+BONUS_NAMES = server_bonus
 
-SERVER_FILE = mandatory/server.c
+PRINTF = libftprintf.a
 
-CLIENT_EXEC = client
+LIBFT = libft.a
 
-SERVER_EXEC = server
+SRCC_FILES = client.c
 
-all : $(NAME)
+SRCS_FILES = server.c
 
-$(NAME) : $(CLIENT_EXEC) $(SERVER_EXEC)
+BONUSC_FILES = client_bonus.c
 
-$(CLIENT_EXEC) : ft_printf/libftprintf.a libft/libft.a $(CLIENT_FILE)
-	$(CC) $(CFLAGS) $(CLIENT_FILE) -Lft_printf -lftprintf -Llibft -lft -o $(CLIENT_EXEC)
+BONUSS_FILES = server_bonus.c
 
-libft/libft.a :
-	$(MAKE) -C libft bonus
+SRC_DIR = src/
 
-ft_printf/libftprint.a :
-	$(MAKE) -C ft_printf
+SRCC = $(addprefix $(SRC_DIR), $(SRCC_FILES))
+
+SRCS = $(addprefix $(SRC_DIR), $(SRCS_FILES))
+
+BONUSC = $(addprefix $(SRC_DIR), $(BONUSC_FILES))
+
+BONUSS = $(addprefix $(SRC_DIR), $(BONUSS_FILES))
+
+OBJC = ${SRCC:.c=.o}
+
+OBJS = ${SRCS:.c=.o}
+
+OBJBC = ${BONUSC:.c=.o}
+
+OBJBS = ${BONUSS:.c=.o}
+
+CC = cc
+
+CFLAGS = -Wall -Werror -Wextra
+
+INCLUDE = -I include
+
+RM = rm -rf
+
+all : $(NAMEC) $(NAMES)
+
+$(NAMEC) : $(OBJC)
+			@make -C libft
+			@make -C ft_printf
+			$(CC) $(CFLAGS) $(OBJC) $(INCLUDE) ft_printf/$(PRINTF) libft/$(LIBFT) -o $(NAMEC)
+
+$(NAMES) : $(OBJS)
+			$(CC) $(CFLAGS) $(OBJS) $(INCLUDE) ft_printf/$(PRINTF) libft/$(LIBFT) -o $(NAMES)
+
+bonus : $(BONUS_NAMEC) $(BONUS_NAMES)
+
+$(BONUS_NAMEC) : $(OBJBC)
+			@make -C ft_printf
+			@make -C libft
+			$(CC) $(CFLGS) $(OBJBC) $(INCLUDE) ft_printf/$(PRINTF) libft/$(LIBFT) -o $(BONUS_NAMEC)
+
+$(BONUS_NAMES) : $(OBJBS)
+			$(CC) $(CFLAGS) $(OBJBS) $(INCLUDE) ft_printf/$(PRINTF) libft/$(LIBFT) -o $(BONUS_NAMES)
 
 clean :
-	rm -f $(CLIENT_EXEC) $(SERVER_EXEC)
-	$(MAKE) -C libft clean
-	$(MAKE) -C ft_printf clean
+	@make clean -C libft
+	@make clean -C ft_printf
+	${RM} ${OBJC}
+	${RM} ${OBJS}
+	${RM} ${OBJBC}
+	${RM} ${OBJBS}
 
-fclen : clean
-	$(MAKE) -C libft fclean
-	$(MAKE) -C ft_printf fclean
+fclean : clean
+	@make fclean -C libft
+	@make fclean -C ft_printf
+	${RM} $(NAMEC)
+	${RM} $(NAMES)
+	$(RM) $(BONUS_NAMEC)
+	$(RM) $(BONUS_NAMES)
 
 re : fclean all
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re bonus
