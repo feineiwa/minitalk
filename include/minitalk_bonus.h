@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:52:19 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/28 16:10:54 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:53:27 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct s_string
 {
 	unsigned char		c;
-	struct s_string	*next;
+	struct s_string		*next;
 }					t_string;
 
 #endif

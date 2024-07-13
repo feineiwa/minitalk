@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:19:40 by frahenin          #+#    #+#             */
-/*   Updated: 2024/03/15 15:21:14 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:56:02 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	ft_check_format(char spec, va_list ap)
 	return (count);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list ap;
-	int	count;
-	int	i;
+	va_list	ap;
+	int		count;
+	int		i;
 
 	count = 0;
 	i = 0;

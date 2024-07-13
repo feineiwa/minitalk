@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:45:52 by frahenin          #+#    #+#             */
-/*   Updated: 2024/03/15 15:08:55 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:46:37 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_print_digits(long nbr, int base, char c)
 	char	*symb;
 
 	count = 0;
-	if (c == 'x' || c == 'u' || c== 'd' || c == 'i')
+	if (c == 'x' || c == 'u' || c == 'd' || c == 'i')
 		symb = "0123456789abcdef";
 	else if (c == 'X')
 		symb = "0123456789ABCDEF";

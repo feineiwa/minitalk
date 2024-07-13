@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:14:59 by frahenin          #+#    #+#             */
-/*   Updated: 2024/03/15 15:06:16 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:49:12 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int	ft_printf(const char *str, ...);
+int		ft_printf(const char *str, ...);
 void	ft_putchar_fd(char c, int fd);
-int	ft_print_ptr(unsigned long nbr);
-int	ft_print_str(char *str);
-int	ft_putchar(int c);
-int	ft_print_digits(long nbr, int base, char c);
+int		ft_print_ptr(unsigned long nbr);
+int		ft_print_str(char *str);
+int		ft_putchar(int c);
+int		ft_print_digits(long nbr, int base, char c);
 #endif

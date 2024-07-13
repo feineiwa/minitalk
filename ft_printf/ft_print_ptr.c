@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 11:37:30 by frahenin          #+#    #+#             */
-/*   Updated: 2024/03/15 11:38:09 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:47:19 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_put_ptr(unsigned long nbr)
 		if (nbr <= 9)
 			ft_putchar_fd((nbr + 48), 1);
 		else
-			ft_putchar_fd(((nbr - 10 ) + 97), 1);
+			ft_putchar_fd(((nbr - 10) + 97), 1);
 	}
 	else
 	{

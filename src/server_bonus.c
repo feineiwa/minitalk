@@ -6,7 +6,7 @@
 /*   By: frahenin <frahenin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:49:26 by frahenin          #+#    #+#             */
-/*   Updated: 2024/06/28 16:40:09 by frahenin         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:55:27 by frahenin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_and_clear(void)
 	temp = g_message;
 	while (temp)
 	{
-		ft_printf("\e[0;37m%c",temp->c);
+		ft_printf("\e[0;37m%c", temp->c);
 		to_free = temp;
 		temp = temp->next;
 		free(to_free);
@@ -92,7 +92,6 @@ int	main(int argc, char *argv[])
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-
 	while (argc == 1)
 	{
 		pause();
